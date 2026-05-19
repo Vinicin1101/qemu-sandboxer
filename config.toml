@@ -1,0 +1,31 @@
+[image]
+url = "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-nocloud-amd64.qcow2"
+base_dir = "./image"
+base_name = "debian-base.qcow2"
+snapshot_name = "lab_snapshot.qcow2"
+size = "16G"
+
+[guest]
+username = "cobaia"
+password = "cobaia"
+
+[shared]
+host_dir = "./shared_code"
+guest_dir = "/home/cobaia/code"
+
+[packages]
+system = ["ssh", "curl", "net-tools", "vim", "fdisk"]
+development = ["build-essential", "gdb", "gcc-multilib", "python3-pip", "git"]
+
+[hardware]
+memory = "2G"
+cpus = 2
+network_fwd = "user"
+port_mapping = [
+    { host = 2222, guest = 22 },
+    { host = 8080, guest = 8080 }
+]
+
+[host]
+socket_monitor = "unix:/tmp/linux_lab_monitor.sock"
+socket_serial = "unix:/tmp/linux_lab_serial.sock"
