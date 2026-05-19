@@ -1,9 +1,10 @@
 # ==================================================================================
 # Adjust the variables below BEFORE running the ./init.sh script for the first time.
+# If you change this file, you may need to re-run ./init.sh to update the VM configuration.
 # ==================================================================================
 
 [image]
-# URL for the base image (default: Debian Bookworm nocloud)
+# URL for the base image
 url = "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-nocloud-amd64.qcow2"
 # Local directory where the base image will be saved
 base_dir = "./image"

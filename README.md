@@ -1,12 +1,12 @@
 # qemu-sandboxer
 
-A lightweight virtual machine orchestration environment (QEMU + KVM) focused on security research, kernel exploitation (LKM), and low-level development. Everything runs in the background and is configured via `config.toml`.
+My lightweight virtual machine orchestration environment (QEMU + KVM + virt-customize) low-level research/development.
 
 ### Features
 
 * **TOML-Driven Infrastructure:** Manage memory, CPU, packages, storage sizes and network port-forwarding rules from a single `config.toml`.
 * **Background Execution:** Runs virtual machines completely detached (`-daemonize`) with monitoring and console control via Unix sockets (`socat`).
-* **Safe Mutation (Snapshotting):** Native support for ephemeral snapshots (`./lab.sh reset`). Destroy the kernel and revert to a clean state instantly.
+* **Safe Mutation (Snapshotting):** Ephemeral snapshots (`./lab.sh reset`). Destroy the kernel and revert to a clean state instantly.
 
 ---
 
@@ -35,8 +35,8 @@ Wait for the script to complete, then run `./lab.sh start` to start the virtual 
 #### 5. Usage
 ```bash
 ./lab.sh start   # Start the VM daemonized
-./lab.sh status  # Show host telemetry (PID, CPU, RAM, Uptime)
+./lab.sh status  # Show telemetry (PID, CPU, RAM, Uptime)
 ./lab.sh console # Open serial console via socket (CTRL+O to exit)
-./lab.sh stop    # Gracefully shutdown the VM
+./lab.sh stop    # Gracefully shutdown lab
 ./lab.sh reset   # Destroy the current snapshot and recreate a clean one from the base image
 ```
