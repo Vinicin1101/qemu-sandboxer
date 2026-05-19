@@ -1,31 +1,51 @@
+# ==================================================================================
+# Adjust the variables below BEFORE running the ./init.sh script for the first time.
+# ==================================================================================
+
 [image]
+# URL for the base image (default: Debian Bookworm nocloud)
 url = "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-nocloud-amd64.qcow2"
+# Local directory where the base image will be saved
 base_dir = "./image"
+# Name of the final disk image after customization and package injection
 base_name = "debian-base.qcow2"
+# Ephemeral disk snapshot created from base_name (destroyed and recreated via './lab.sh reset')
 snapshot_name = "lab_snapshot.qcow2"
+# Final size of the disk image (rootfs will be expanded automatically via virt-resize)
 size = "16G"
 
+# Credentials for the primary user that will be created inside the virtual machine (SSH access)
 [guest]
 username = "cobaia"
 password = "cobaia"
 
 [shared]
+# Local directory on your physical machine (Host) where you will edit the code
 host_dir = "./shared_code"
+# Absolute path inside the VM (Guest) where the Host directory will be mounted natively via 9p
 guest_dir = "/home/cobaia/code"
 
+# Packages to install in the VM (system and development don't have differences they are separate for clarity. LoL)
 [packages]
 system = ["ssh", "curl", "net-tools", "vim", "fdisk"]
 development = ["build-essential", "gdb", "gcc-multilib", "python3-pip", "git"]
 
 [hardware]
+# Allocated memory for the QEMU
 memory = "2G"
+# Number of virtual CPU cores
 cpus = 2
+# Backend of the network for QEMU
 network_fwd = "user"
+# Port mapping (Port Forwarding): { host = <your_machine>, guest = <virtual_machine> }
 port_mapping = [
-    { host = 2222, guest = 22 },
-    { host = 8080, guest = 8080 }
+    { host = 2222, guest = 22 },   # Maps the SSH of the VM (22) to port 2222 on your PC
+    { host = 8080, guest = 8080 }  # 1:1 mapping for service or exploit testing
 ]
 
+# Unix sockets used to manage the QEMU process in the background
 [host]
+# Monitor: used by './lab.sh stop' to send graceful shutdown commands
 socket_monitor = "unix:/tmp/linux_lab_monitor.sock"
+# Serial: used by './lab.sh console' to interact with the TTY
 socket_serial = "unix:/tmp/linux_lab_serial.sock"
